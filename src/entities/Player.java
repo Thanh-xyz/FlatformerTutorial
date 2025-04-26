@@ -38,7 +38,6 @@ public class Player extends Entity {
         updatePos();
         updateAnimationTick();
         setAnimation();
-
     }
 
     public void render(Graphics g) {

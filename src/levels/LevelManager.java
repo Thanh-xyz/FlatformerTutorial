@@ -39,7 +39,6 @@ public class LevelManager {
                 g.drawImage(levelSprite[index], Game.TILES_SIZE * i, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
             }
         }
-
     }
 
     public void update() {
