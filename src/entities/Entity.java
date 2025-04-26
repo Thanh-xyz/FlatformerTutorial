@@ -16,7 +16,7 @@ public abstract class Entity {
     }
 
     protected void drawHitbox(Graphics g) {
-        g.setColor(Color.RED);
+        g.setColor(new Color(0, 0, 0, 0));
         g.drawRect((int) hitbox.x, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
