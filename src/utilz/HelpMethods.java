@@ -16,7 +16,8 @@ public class HelpMethods {
     }
 
     private static boolean IsSolid(float x, float y, int[][] lvlData) {
-        if (x < 0 || x >= Game.GAME_WIDTH)
+        int maxWidth = lvlData[0].length * Game.TILES_SIZE;
+        if (x < 0 || x >= maxWidth)
             return true;
         if (y < 0 || y >= Game.GAME_HEIGHT)
             return true;
@@ -59,7 +60,7 @@ public class HelpMethods {
 
     public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData) {
         // Check the pixel below bottomleft and bottomright
-        if (!IsSolid(hitbox.x, hitbox.y + hitbox.height  +1, lvlData))
+        if (!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData))
             if (!IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData))
                 return false;
         return true;

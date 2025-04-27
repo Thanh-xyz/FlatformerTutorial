@@ -14,7 +14,7 @@ public class Player extends Entity {
     private int aniTick, aniIndex, aniSpeed = 25;
     private int playerAction = IDLE;
     private boolean moving = false, attacking = false;
-    private boolean left, up,  right, down, jump;
+    private boolean left, up, right, down, jump;
     private float playerSpeed = 1.0f * Game.SCALE;
     private int[][] lvdData;
     private float xDrawOffset = 21 * Game.SCALE;
@@ -22,13 +22,13 @@ public class Player extends Entity {
 
     // Jumping / Gravity
     private float airSpeed = 0f;
-    private float gravity = 0.04f *  Game.SCALE;
+    private float gravity = 0.04f * Game.SCALE;
     private float jumpSpeed = -2.25f * Game.SCALE;
-    private float fallSpeedAfterCollision = 0.5f *  Game.SCALE;
+    private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
 
 
-    public Player(float x, float y,  int width, int height) {
+    public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
         loadAnimations();
         initHitbox(x, y, (int) (20 * Game.SCALE), (int) (27 * Game.SCALE));
@@ -40,17 +40,17 @@ public class Player extends Entity {
         setAnimation();
     }
 
-    public void render(Graphics g) {
-        g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null);
+    public void render(Graphics g, int lvlOffset) {
+        g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
         drawHitbox(g);
     }
 
     private void updateAnimationTick() {
         aniTick++;
-        if(aniTick >= aniSpeed) {
+        if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if(aniIndex >= GetSpriteAmount(playerAction)) {
+            if (aniIndex >= GetSpriteAmount(playerAction)) {
                 aniIndex = 0;
                 attacking = false;
             }
@@ -60,7 +60,7 @@ public class Player extends Entity {
     private void setAnimation() {
         int startAni = playerAction;
 
-        if(moving)
+        if (moving)
             playerAction = RUNNING;
         else
             playerAction = IDLE;
@@ -88,13 +88,16 @@ public class Player extends Entity {
 
     private void updatePos() {
         moving = false;
-        
-        if (jump) 
+
+        if (jump)
             jump();
-        
-        if (!left && !right && !inAir) {
-            return;
-        }
+
+//        if (!left && !right && !inAir) {
+//            return;
+//        }
+        if (!inAir)
+            if ((!left && !right) || (left && right))
+                return;
 
         float xSpeed = 0;
 
