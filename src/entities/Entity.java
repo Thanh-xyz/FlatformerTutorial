@@ -8,16 +8,17 @@ public abstract class Entity {
     protected float x, y;
     protected int width, height;
     protected Rectangle2D.Float hitbox;
-    public Entity(float x, float y,  int width, int height) {
+
+    public Entity(float x, float y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
     }
 
-    protected void drawHitbox(Graphics g) {
+    protected void drawHitbox(Graphics g, int xLvlOffset) {
         g.setColor(new Color(0, 0, 0, 0));
-        g.drawRect((int) hitbox.x, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
+        g.drawRect((int) hitbox.x - xLvlOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
     // Tao hop quanh nhan vat
