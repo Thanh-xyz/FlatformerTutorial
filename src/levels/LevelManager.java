@@ -20,7 +20,7 @@ public class LevelManager {
 
     //Tao ban do
     private void importOutsideSprites() {
-        BufferedImage img = LoadSave.GetPlayerAtlas(LoadSave.LEVEL_ATLAS);
+        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ATLAS);
         levelSprite = new BufferedImage[48];
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 12; i++) {

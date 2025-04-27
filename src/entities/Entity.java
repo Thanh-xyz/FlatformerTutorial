@@ -21,7 +21,7 @@ public abstract class Entity {
     }
 
     // Tao hop quanh nhan vat
-    protected void initHitbox(float x, float y, float width, float height) {
+    protected void initHitbox(float x, float y, int width, int height) {
         hitbox = new Rectangle2D.Float(x, y, width, height);
     }
 

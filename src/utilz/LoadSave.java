@@ -10,13 +10,15 @@ import java.io.InputStream;
 
 public class LoadSave {
 
-    public static final String PLAYER_ATLAS = "/player_sprites.png";
-    public static final String LEVEL_ATLAS = "/outside_sprites.png";
-    public static final String LEVEL_ONE_ATLAS = "/level_one_data.png";
+    public static final String PLAYER_ATLAS = "player_sprites.png";
+    public static final String LEVEL_ATLAS = "outside_sprites.png";
+    public static final String LEVEL_ONE_ATLAS = "level_one_data.png";
+    public static final String MENU_BUTTONS = "button_atlas.png";
+    public static final String MENU_BACKGROUND = "menu_background.png";
 
-    public static BufferedImage GetPlayerAtlas(String fileName) {
+    public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage image = null;
-        InputStream is = LoadSave.class.getResourceAsStream(fileName);
+        InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
 
         try {
             image = ImageIO.read(is);
@@ -36,7 +38,7 @@ public class LoadSave {
     //Lay du lieu ban do
     public static int[][] GetLevelData() {
         int[][] lvlData = new int[Game.GAME_HEIGHT][Game.GAME_WIDTH];
-        BufferedImage img = GetPlayerAtlas(LEVEL_ONE_ATLAS);
+        BufferedImage img = GetSpriteAtlas(LEVEL_ONE_ATLAS);
 
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
