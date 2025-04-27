@@ -25,9 +25,9 @@ public class EnemyManager {
         System.out.println("Enemies added" +  crabbies.size());
     }
 
-    public void update(int[][] lvlData) {
+    public void update(int[][] lvlData, Player player) {
         for (Crabby crabby : crabbies) {
-            crabby.update(lvlData);
+            crabby.update(lvlData, player);
         }
     }
 
