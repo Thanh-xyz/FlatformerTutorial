@@ -6,6 +6,7 @@ import utilz.LoadSave;
 import static utilz.Constants.EnemyConstants.*;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -22,13 +23,13 @@ public class EnemyManager {
 
     private void addEnemies() {
         crabbies = LoadSave.GetCrabs();
-        System.out.println("Enemies added" +  crabbies.size());
+        System.out.println("Enemies added" + crabbies.size());
     }
 
     public void update(int[][] lvlData, Player player) {
-        for (Crabby crabby : crabbies) {
-            crabby.update(lvlData, player);
-        }
+        for (Crabby crabby : crabbies)
+            if (crabby.isActive())
+                crabby.update(lvlData, player);
     }
 
     public void draw(Graphics g, int xLvlOffset) {
@@ -37,7 +38,19 @@ public class EnemyManager {
 
     private void drawCrabs(Graphics g, int xLvlOffset) {
         for (Crabby c : crabbies)
-            g.drawImage(crabbyArr[c.getEnemyState()][c.getAniIndex()], (int) c.getHitbox().x - xLvlOffset - CRABBY_DRAWOFFSET_X + c.flipX(), (int) c.getHitbox().y - CRABBY_DRAWOFFSET_Y, CRABBY_WIDTH * c.flipW(), CRABBY_HEIGHT, null);
+            if (c.isActive()) {
+                g.drawImage(crabbyArr[c.getEnemyState()][c.getAniIndex()], (int) c.getHitbox().x - xLvlOffset - CRABBY_DRAWOFFSET_X + c.flipX(), (int) c.getHitbox().y - CRABBY_DRAWOFFSET_Y, CRABBY_WIDTH * c.flipW(), CRABBY_HEIGHT, null);
+                c.drawAttackBox(g, xLvlOffset);
+            }
+    }
+
+    public void checkEnemyHit(Rectangle2D.Float attackBox) {
+        for (Crabby c : crabbies)
+            if (c.isActive())
+                if (attackBox.intersects(c.getHitbox())) {
+                    c.hurt(10);
+                    return;
+                }
     }
 
     private void loadEnemyImgs() {
@@ -46,5 +59,11 @@ public class EnemyManager {
         for (int i = 0; i < crabbyArr.length; i++)
             for (int j = 0; j < crabbyArr[i].length; j++)
                 crabbyArr[i][j] = temp.getSubimage(j * CRABBY_WIDTH_DEFAULT, i * CRABBY_HEIGHT_DEFAULT, CRABBY_WIDTH_DEFAULT, CRABBY_HEIGHT_DEFAULT);
+    }
+
+    public void resetAllEnemy() {
+        for (Crabby c : crabbies) {
+            c.resetenemy();
+        }
     }
 }

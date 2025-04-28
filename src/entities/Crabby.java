@@ -2,23 +2,41 @@ package entities;
 
 import main.Game;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
 import static utilz.Constants.Directions.*;
 import static utilz.Constants.EnemyConstants.*;
 
 public class Crabby extends Enemy {
 
+    // AttackBix
+    private Rectangle2D.Float attackBox;
+    private int attackBoxOffsetX;
+
     public Crabby(float x, float y) {
         super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY);
         initHitbox(x, y, (int) (22 * Game.SCALE), (int) (19 * Game.SCALE));
+        intiAttackBox();
+    }
 
+    private void intiAttackBox() {
+        attackBox = new Rectangle2D.Float(x, y, (int) (82 * Game.SCALE), (int) (19 * Game.SCALE));
+        attackBoxOffsetX = (int) (Game.SCALE * 30);
     }
 
     public void update(int[][] lvlData, Player player) {
-        updateMove(lvlData, player);
+        updateBehaviour(lvlData, player);
         updateAnimationTick();
+        updateAttackBox();
     }
 
-    private void updateMove(int[][] lvlData, Player player) {
+    private void updateAttackBox() {
+        attackBox.x = hitbox.x - attackBoxOffsetX;
+        attackBox.y = hitbox.y;
+    }
+
+    private void updateBehaviour(int[][] lvlData, Player player) {
         if (firstUpdate)
             firstUpdateCheck(lvlData);
 
@@ -30,15 +48,30 @@ public class Crabby extends Enemy {
                     newState(RUNNING);
                     break;
                 case RUNNING:
-                    if (canSeePlayer(lvlData, player))
+                    if (canSeePlayer(lvlData, player)) {
                         turnTowardsPlayer(player);
-                    if (isPlayerCloseForAttack(player))
-                        newState(ATTACK);
+                        if (isPlayerCloseForAttack(player))
+                            newState(ATTACK);
+                    }
 
                     move(lvlData);
                     break;
+                case ATTACK:
+                    if(aniIndex == 0)
+                        attackChecked = false;
+
+                    if (aniIndex == 3 && !attackChecked)
+                        checkPlayerHit(attackBox, player);
+                    break;
+                case HIT:
+                    break;
             }
         }
+    }
+
+    public void drawAttackBox(Graphics g, int xLvlOffset) {
+        g.setColor(Color.RED);
+        g.drawRect((int) (attackBox.x - xLvlOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
     public int flipX() {
