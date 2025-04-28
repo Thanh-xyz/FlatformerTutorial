@@ -70,7 +70,7 @@ public class Crabby extends Enemy {
     }
 
     public void drawAttackBox(Graphics g, int xLvlOffset) {
-        g.setColor(Color.RED);
+        g.setColor(new Color(0 ,0 ,0, 0));
         g.drawRect((int) (attackBox.x - xLvlOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 

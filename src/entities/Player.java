@@ -63,6 +63,13 @@ public class Player extends Entity {
         initAttackBox();
     }
 
+    public void setSpawn(Point spawn) {
+        this.x = spawn.x;
+        this.y = spawn.y;
+        hitbox.x = x;
+        hitbox.y = y;
+    }
+
     private void initAttackBox() {
         attackBox = new Rectangle2D.Float(x, y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
     }
@@ -108,8 +115,7 @@ public class Player extends Entity {
                 (int) (hitbox.x - xDrawOffset) - lvlOffset + flipX,
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW, height, null);
-//        drawHitbox(g, lvlOffset);
-        drawAttackBox(g, lvlOffset);
+//        drawAttackBox(g, lvlOffset);
         drawUI(g);
     }
 

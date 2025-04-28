@@ -136,7 +136,7 @@ public abstract class Enemy extends Entity {
             walkDir = LEFT;
     }
 
-    public void resetenemy() {
+    public void resetEnemy() {
         hitbox.x = x;
         hitbox.y = y;
         firstUpdate = true;
