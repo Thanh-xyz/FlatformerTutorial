@@ -4,6 +4,7 @@ import entities.Crabby;
 import main.Game;
 import objects.GameContainer;
 import objects.Potion;
+import objects.Spike;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -140,13 +141,14 @@ public class HelpMethods {
                 Color color = new Color(img.getRGB(j, i));
                 int value = color.getGreen();
                 if (value == 100)
-                    return new Point(j *  Game.TILES_SIZE, i * Game.TILES_SIZE);
+                    return new Point(j * Game.TILES_SIZE, i * Game.TILES_SIZE);
             }
         return new Point(1 * Game.TILES_SIZE, 1 * Game.TILES_SIZE);
     }
 
     public static ArrayList<Potion> GetPotions(BufferedImage img) {
         ArrayList<Potion> list = new ArrayList<>();
+
         for (int i = 0; i < img.getHeight(); i++)
             for (int j = 0; j < img.getWidth(); j++) {
                 Color color = new Color(img.getRGB(j, i));
@@ -154,11 +156,13 @@ public class HelpMethods {
                 if (value == RED_POTION || value == BLUE_POTION)
                     list.add(new Potion(j * Game.TILES_SIZE, i * Game.TILES_SIZE, value));
             }
+
         return list;
     }
 
     public static ArrayList<GameContainer> GetContainers(BufferedImage img) {
         ArrayList<GameContainer> list = new ArrayList<>();
+
         for (int i = 0; i < img.getHeight(); i++)
             for (int j = 0; j < img.getWidth(); j++) {
                 Color color = new Color(img.getRGB(j, i));
@@ -166,6 +170,21 @@ public class HelpMethods {
                 if (value == BOX || value == BARREL)
                     list.add(new GameContainer(j * Game.TILES_SIZE, i * Game.TILES_SIZE, value));
             }
+
+        return list;
+    }
+
+    public static ArrayList<Spike> GetSpikes(BufferedImage img) {
+        ArrayList<Spike> list = new ArrayList<>();
+
+        for (int i = 0; i < img.getHeight(); i++)
+            for (int j = 0; j < img.getWidth(); j++) {
+                Color color = new Color(img.getRGB(j, i));
+                int value = color.getBlue();
+                if (value == SPIKE)
+                    list.add(new Spike(j * Game.TILES_SIZE, i * Game.TILES_SIZE, value));
+            }
+
         return list;
     }
 }
