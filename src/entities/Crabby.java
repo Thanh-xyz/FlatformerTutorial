@@ -10,13 +10,12 @@ import static utilz.Constants.EnemyConstants.*;
 
 public class Crabby extends Enemy {
 
-    // AttackBix
-    private Rectangle2D.Float attackBox;
+    // AttackBox
     private int attackBoxOffsetX;
 
     public Crabby(float x, float y) {
         super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY);
-        initHitbox(x, y, (int) (22 * Game.SCALE), (int) (19 * Game.SCALE));
+        initHitbox(22,19);
         intiAttackBox();
     }
 
@@ -43,7 +42,7 @@ public class Crabby extends Enemy {
         if (inAir) {
             updateInAir(lvlData);
         } else {
-            switch (enemyState) {
+            switch (state) {
                 case IDLE:
                     newState(RUNNING);
                     break;
@@ -57,7 +56,7 @@ public class Crabby extends Enemy {
                     move(lvlData);
                     break;
                 case ATTACK:
-                    if(aniIndex == 0)
+                    if (aniIndex == 0)
                         attackChecked = false;
 
                     if (aniIndex == 3 && !attackChecked)
@@ -67,11 +66,6 @@ public class Crabby extends Enemy {
                     break;
             }
         }
-    }
-
-    public void drawAttackBox(Graphics g, int xLvlOffset) {
-        g.setColor(new Color(0 ,0 ,0, 0));
-        g.drawRect((int) (attackBox.x - xLvlOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
     public int flipX() {

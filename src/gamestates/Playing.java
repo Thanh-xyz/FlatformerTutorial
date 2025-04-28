@@ -203,20 +203,17 @@ public class Playing extends State implements Statemethods {
             gameOverOverlay.keyPressed(e);
         else
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
-                    player.setUp(true);
-                    break;
                 case KeyEvent.VK_A:
                     player.setLeft(true);
-                    break;
-                case KeyEvent.VK_S:
-                    player.setDown(true);
                     break;
                 case KeyEvent.VK_D:
                     player.setRight(true);
                     break;
                 case KeyEvent.VK_K:
                     player.setJump(true);
+                    break;
+                case KeyEvent.VK_J:
+                    player.setAttacking(true);
                     break;
                 case KeyEvent.VK_BACK_SPACE:
                     paused = !paused;
@@ -228,14 +225,8 @@ public class Playing extends State implements Statemethods {
     public void keyReleased(KeyEvent e) {
         if (!gameOver)
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
-                    player.setUp(false);
-                    break;
                 case KeyEvent.VK_A:
                     player.setLeft(false);
-                    break;
-                case KeyEvent.VK_S:
-                    player.setDown(false);
                     break;
                 case KeyEvent.VK_D:
                     player.setRight(false);
