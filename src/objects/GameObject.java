@@ -28,10 +28,11 @@ public class GameObject {
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(objType)) {
                 aniIndex = 0;
-                if (objType == BARREL || objType == BOX) {
+                if (objType == BARREL || objType == BOX || objType == CANNON_LEFT || objType == CANNON_RIGHT) {
                     doAnimation = false;
                     active = false;
-                }
+                } else if (objType == CANNON_LEFT || objType == CANNON_RIGHT)
+                    doAnimation = false;
             }
         }
     }
