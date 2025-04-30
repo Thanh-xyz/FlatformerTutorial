@@ -41,11 +41,6 @@ public abstract class Entity {
         hitbox = new Rectangle2D.Float(x, y, (int) (width * Game.SCALE), (int) (height * Game.SCALE));
     }
 
-//    protected void updateHitbox() {
-//        hitbox.x = (int) x;
-//        hitbox.y = (int) y;
-//    }
-
     public Rectangle2D.Float getHitbox() {
         return hitbox;
     }
@@ -56,5 +51,9 @@ public abstract class Entity {
 
     public int getAniIndex() {
         return aniIndex;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 }
