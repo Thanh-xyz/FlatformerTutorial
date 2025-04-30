@@ -1,8 +1,10 @@
 package main;
 
+import gamestates.GameOptions;
 import gamestates.Gamestate;
 import gamestates.Playing;
 import gamestates.Menu;
+import ui.AudioOptions;
 import utilz.LoadSave;
 
 import java.awt.*;
@@ -17,12 +19,14 @@ public class Game implements Runnable {
 
     private Playing playing;
     private Menu menu;
+    private GameOptions gameOptions;
+    private AudioOptions audioOptions;
 
     public final static int TILES_DEFAULT_SIZE = 32;
     public final static float SCALE = 2.0f;
     public final static int TILES_IN_WIDTH = 26;
     public final static int TILES_IN_HEIGHT = 14;
-    public final static int TILES_SIZE = (int ) (TILES_DEFAULT_SIZE * SCALE);
+    public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
@@ -39,8 +43,10 @@ public class Game implements Runnable {
     }
 
     private void intClasses() {
+        audioOptions = new AudioOptions();
         menu = new Menu(this);
         playing = new Playing(this);
+        gameOptions = new GameOptions(this);
     }
 
     // Start thread
@@ -58,6 +64,8 @@ public class Game implements Runnable {
                 playing.update();
                 break;
             case OPTIONS:
+                gameOptions.update();
+                break;
             case QUIT:
             default:
                 System.exit(0);
@@ -73,6 +81,9 @@ public class Game implements Runnable {
             case PLAYING:
                 playing.draw(g);
                 break;
+            case OPTIONS:
+                gameOptions.draw(g);
+                break;
             default:
                 break;
         }
@@ -81,8 +92,8 @@ public class Game implements Runnable {
     @Override
     public void run() {
 
-        double timePerFrame = 1000000000.0 /  FPS_SET;
-        double timePerUpdate = 1000000000.0 /  UPS_SET;
+        double timePerFrame = 1000000000.0 / FPS_SET;
+        double timePerUpdate = 1000000000.0 / UPS_SET;
 
         long previousTime = System.nanoTime();
 
@@ -93,7 +104,7 @@ public class Game implements Runnable {
         double deltaU = 0;
         double deltaF = 0;
 
-        while(true) {
+        while (true) {
             long currentTime = System.nanoTime();
 
             deltaU += (currentTime - previousTime) / timePerUpdate;
@@ -101,20 +112,20 @@ public class Game implements Runnable {
             previousTime = currentTime;
 
 
-            if(deltaU >= 1) {
+            if (deltaU >= 1) {
                 update();
                 updates++;
                 deltaU--;
             }
 
-            if(deltaF >= 1) {
+            if (deltaF >= 1) {
                 gamePanel.repaint();
                 frames++;
                 deltaF--;
             }
 
             // Ty le khung hinh tren second
-            if(System.currentTimeMillis() - lastCheck >= 1000) {
+            if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
                 System.out.println("FPS: " + frames + " | UPS: " + updates);
                 frames = 0;
@@ -135,5 +146,13 @@ public class Game implements Runnable {
 
     public Playing getPlaying() {
         return playing;
+    }
+
+    public GameOptions getGameOptions() {
+        return gameOptions;
+    }
+
+    public AudioOptions getAudioOptions() {
+        return audioOptions;
     }
 }
