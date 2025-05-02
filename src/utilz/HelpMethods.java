@@ -1,6 +1,7 @@
 package utilz;
 
 import entities.Crabby;
+import entities.PinkStar;
 import main.Game;
 import objects.*;
 
@@ -10,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import static utilz.Constants.EnemyConstants.CRABBY;
+import static utilz.Constants.EnemyConstants.PINKSTAR;
 import static utilz.Constants.ObjectConstants.*;
 
 public class HelpMethods {
@@ -89,6 +91,13 @@ public class HelpMethods {
             return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
     }
 
+    public static boolean IsFloor(Rectangle2D.Float hitbox, int[][] lvlData) {
+        if (!IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData))
+            if (!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData))
+                return false;
+        return true;
+    }
+
     public static boolean CanCannonSeePlayer(int[][] lvlData, Rectangle2D.Float firstHitbox, Rectangle2D.Float secondHitbox, int yTile) {
         int firstXTile = (int) (firstHitbox.x / Game.TILES_SIZE);
         int secondXTile = (int) (firstHitbox.x / Game.TILES_SIZE);
@@ -150,6 +159,19 @@ public class HelpMethods {
                 int value = color.getGreen();
                 if (value == CRABBY)
                     list.add(new Crabby(j * Game.TILES_SIZE, i * Game.TILES_SIZE));
+            }
+        return list;
+    }
+
+    public static ArrayList<PinkStar> GetPinkStars(BufferedImage img) {
+        ArrayList<PinkStar> list = new ArrayList<>();
+
+        for (int i = 0; i < img.getHeight(); i++)
+            for (int j = 0; j < img.getWidth(); j++) {
+                Color color = new Color(img.getRGB(j, i));
+                int value = color.getGreen();
+                if (value == PINKSTAR)
+                    list.add(new PinkStar(j * Game.TILES_SIZE, i * Game.TILES_SIZE));
             }
         return list;
     }

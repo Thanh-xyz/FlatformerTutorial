@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import static utilz.Constants.ANI_SPEED;
+import static utilz.Constants.Directions.*;
 import static utilz.Constants.GRAVITY;
 import static utilz.Constants.PlayerConstants.*;
 import static utilz.HelpMethods.*;
@@ -343,6 +344,20 @@ public class Player extends Entity {
         } else if (currentHealth <= 0)
             currentHealth = 0;
     }
+
+    public void changeHealth(int value, Enemy e) {
+        if (state == HIT)
+            return;
+        changeHealth(value);
+        pushBackOffsetDir = UP;
+        pushDrawOffset = 0;
+
+        if (e.getHitbox().x < hitbox.x)
+            pushBackDir = RIGHT;
+        else
+            pushBackDir = LEFT;
+    }
+
 
     public void kill() {
         currentHealth = 0;

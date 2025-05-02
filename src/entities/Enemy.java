@@ -1,5 +1,6 @@
 package entities;
 
+import gamestates.Playing;
 import main.Game;
 
 import java.awt.geom.Rectangle2D;
@@ -32,6 +33,13 @@ public abstract class Enemy extends Entity {
         if (!IsEntityOnFloor(hitbox, lvlData))
             inAir = true;
         firstUpdate = false;
+    }
+
+    protected void inAirChecks(int[][] lvlData, Playing playing) {
+        if (state != HIT && state != DEAD) {
+            updateInAir(lvlData);
+//            playing.getObjectManager().checkSpikesTouched(this);
+        }
     }
 
     protected void updateInAir(int[][] lvlData) {
@@ -146,5 +154,9 @@ public abstract class Enemy extends Entity {
 
     public boolean isActive() {
         return active;
+    }
+
+    public float getPushDrawOffset() {
+        return pushDrawOffset;
     }
 }

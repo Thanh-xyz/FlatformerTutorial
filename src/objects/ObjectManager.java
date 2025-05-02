@@ -1,5 +1,6 @@
 package objects;
 
+import entities.Enemy;
 import entities.Player;
 import gamestates.Playing;
 import levels.Level;
@@ -27,6 +28,8 @@ public class ObjectManager {
     private ArrayList<Cannon> cannons;
     private ArrayList<Projectile> projectiles = new ArrayList<>();
 
+    private Level currentLevel;
+
     public ObjectManager(Playing playing) {
         this.playing = playing;
         loadImgs();
@@ -36,6 +39,12 @@ public class ObjectManager {
         for (Spike s : spikes)
             if (s.getHitbox().intersects(p.getHitbox()))
                 p.kill();
+    }
+
+    public void checkSpikesTouched(Enemy e) {
+        for (Spike s : currentLevel.getSpikes())
+            if (s.getHitbox().intersects(e.getHitbox()))
+                e.hurt(200);
     }
 
     public void checkObjectTouched(Rectangle2D.Float hitbox) {

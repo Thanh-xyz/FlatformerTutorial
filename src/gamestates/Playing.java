@@ -1,5 +1,6 @@
 package gamestates;
 
+import effects.DialogueEffect;
 import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
@@ -15,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Random;
 
 import static utilz.Constants.Environment.*;
@@ -35,6 +37,7 @@ public class Playing extends State implements Statemethods {
     private int maxLvlOffsetX;
 
     private BufferedImage backgroundImg, bigCloud, smallCloud;
+    private ArrayList<DialogueEffect> dialogEffects = new ArrayList<>();
     private int[] smallCloudsPos;
     private Random rnd = new Random();
 
@@ -103,6 +106,17 @@ public class Playing extends State implements Statemethods {
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
             checkCloseToBorder();
         }
+    }
+
+    public void addDialogue(int x, int y, int type) {
+        // Not adding a new one, we are recycling. #ThinkGreen lol
+        dialogEffects.add(new DialogueEffect(x, y - (int) (Game.SCALE * 15), type));
+        for (DialogueEffect de : dialogEffects)
+            if (!de.isActive())
+                if (de.getType() == type) {
+                    de.reset(x, -(int) (Game.SCALE * 15));
+                    return;
+                }
     }
 
     private void checkCloseToBorder() {
@@ -244,6 +258,9 @@ public class Playing extends State implements Statemethods {
                 case KeyEvent.VK_J:
                     player.setAttacking(true);
                     break;
+                case KeyEvent.VK_U:
+                    player.powerAttack();
+                    break;
                 case KeyEvent.VK_BACK_SPACE:
                     paused = !paused;
                     break;
@@ -268,7 +285,7 @@ public class Playing extends State implements Statemethods {
 
     public void setLevelCompleted(boolean levelCompleted) {
         this.lvlCompleted = levelCompleted;
-        if(levelCompleted)
+        if (levelCompleted)
             game.getAudioPlayer().LvlCompleted();
     }
 
